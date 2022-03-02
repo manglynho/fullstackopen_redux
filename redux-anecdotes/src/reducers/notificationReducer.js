@@ -1,31 +1,44 @@
 
-const notificationReducer = (state = null, action) => {
+const notificationReducer = (state = [], action) => {
     switch (action.type) {
-        case 'SET_ADD':
-          return 'Added new anecdote'
-        case 'SET_VOTE':
-          return 'Just Voted'
-        case 'SET_CLEAR':
-          return null
+        case 'SET_NOTIF':
+            return action.data
+          case 'UNSET_NOTIF':
+            if(state.id === action.data.id){
+              return null 
+            }
+            return state
         default:
           return state
       }
   }
+
+  function showNotification(id, text) {
+    let data = {
+        id: id,
+        text: text,
+      }
+    return { type: 'SET_NOTIF', data }
+  }
+  function hideNotification(id) {
+    let data = {
+      id: id,
+      text: null,
+    }
+    return { type: 'UNSET_NOTIF', data }
+  }
   
-  export const runAddNotification = () => {  return {
-    type: 'SET_ADD'
+let nextNotificationId = 0
+
+export function setNotification(text, time) {
+  return function (dispatch) {
+    const id = nextNotificationId++
+    dispatch(showNotification(id, text))
+    setTimeout(() => {
+      dispatch(hideNotification(id))
+    }, time)
   }
 }
 
-export const runVoteNotification = () => {  return {
-    type: 'SET_VOTE'
-  }
-}
-  
-  export const clearNotification = () => {  return {
-    type: 'SET_CLEAR'
-  }
-}
 
-  
-  export default notificationReducer
+export default notificationReducer
