@@ -24,15 +24,7 @@ const AnecdoteForm = (props) => {
     </form>
   )
 }
-
-const mapDispatchToProps = dispatch => {  
-  return {    
-    createAnecdote: value => {      
-      dispatch(createAnecdote(value))    
-    }, 
-    setNotification, 
-  }
-}
+const mapDispatchToProps = {  createAnecdote, setNotification }
 
 export default connect(  
   null,   
